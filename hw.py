@@ -7,18 +7,18 @@ def enter_data():
     contact = {'first_name': first_name,'second_name': second_name,'midle_name':midle_name,'phone_number':phone_number}
     return contact
 
-def pars_record(str):
+def parsing_record(str):
     str=str.split(";")
     contact = {'first_name': str[0],'second_name': str[1],'midle_name':str[2],'phone_number':str[3]}
     return contact
 
-def add_rec(list):
+def add_record(list):
     contact=enter_data()
     list.append(contact)
     return list
     
-def save_ph(file_name,list,):
-    temp_list=open_ph(file_name)
+def save_pb(file_name,list,):
+    temp_list=open_pb(file_name)
     with open(file_name, 'a', encoding='utf-8') as file:
       for i in range(len(list)):
         contact=list[i]
@@ -28,18 +28,18 @@ def save_ph(file_name,list,):
                 file.write(value)
             file.write('\n')
         
-def open_ph(file_name,list=[]):
+def open_pb(file_name,list=[]):
     try:     
         with open(file_name, 'r', encoding='utf-8') as file:
             for line in file:
-                list.append(pars_record(line))
+                list.append(parsing_record(line))
         return list
     except:
         print(f"файла {file_name} не существует!")
         input("press enter to cont")
         return
 
-def view_ph(list):
+def view_pb(list):
     if list==None or len(list)==0:
         print("список пустой")
         return
@@ -51,27 +51,32 @@ def view_ph(list):
         str=""
         for (k,v) in list[i].items():
             str+=f"{v}\t\t"
-        print(f"{i}\t\t{str}")
+        print(f"{i+1}\t\t{str}")
 
 def del_rec(list):
-    view_ph(list)
+    view_pb(list)
     record_for_del=int(input("Номер какой записи удалить? : "))
+    record_for_del=record_for_del-1
     list.remove(list[record_for_del])
-    view_ph(list)
+    # view_pb(list)
     return list
     
-def copy_ph(list):
+def copy_record(list):
     if not list:
         print("список пустой")
         input("press enter to cont")
         return
-    view_ph(list)
+    view_pb(list)
     list_for_copy=[]
-    record_for_copy=int(input("Номер какой записи копировать? : "))
-    # print(list[record_for_copy])
-    list_for_copy.append(list[record_for_copy])
+    print("копирование записей. для прекращения введите 0")
+    isStop=False
+    while not isStop:
+        record_for_copy=int(input("Номер какой записи копировать? : "))
+        if record_for_copy!=0:
+            list_for_copy.append(list[record_for_copy-1])
+        else:
+            isStop=True
     file_name_for_save=input("Имя файла для записи? : ")
-    # print(f"create {file_name_for_save} for records {list_for_copy}") 
     with open(file_name_for_save, 'a', encoding='utf-8') as file:
       for i in range(len(list_for_copy)):
         contact=list_for_copy[i]
@@ -102,15 +107,15 @@ while not isStop:
     if number=='0':
         isStop=exit_ph(isStop)
     if number=='1':
-        list=open_ph(pb_file_name,list)
+        list=open_pb(pb_file_name,list)
     if number=='2':
-        view_ph(list)
+        view_pb(list)
         input("press enter to cont")
     if number=='3':
-        list=add_rec(list)
+        list=add_record(list)
     if number=='4':
         list=del_rec(list)
     if number=='5':
-        save_ph(pb_file_name,list)
+        save_pb(pb_file_name,list)
     if number=='6':
-        copy_ph(list)
+        copy_record(list)
