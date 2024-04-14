@@ -68,12 +68,13 @@ def copy_ph(list):
     view_ph(list)
     list_for_copy=[]
     record_for_copy=int(input("Номер какой записи копировать? : "))
+    # print(list[record_for_copy])
     list_for_copy.append(list[record_for_copy])
     file_name_for_save=input("Имя файла для записи? : ")
-    print(f"create {file_name_for_save} for records {list_for_copy}") 
+    # print(f"create {file_name_for_save} for records {list_for_copy}") 
     with open(file_name_for_save, 'a', encoding='utf-8') as file:
       for i in range(len(list_for_copy)):
-        contact=list[i]
+        contact=list_for_copy[i]
         for value in contact.values():
             value=value+";"
             file.write(value)
